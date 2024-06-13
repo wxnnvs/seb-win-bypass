@@ -1,6 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <!-- These components will be auto-generated! -->
+        <DirectoryRef Id="ConfigurationDirectory">
+            <Component Id="cmp263DF78910BE75FB56BBDA8048A76DFA" Guid="*">
+                <File Id="filCDA3D1C974047DE8564DDC3D29324C0A" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\DotNetZip.dll" />
+            </Component>
+            <Component Id="cmp3B3087435BF8B729312F64574A5D7F04" Guid="*">
+                <File Id="fil65A158D957C34B680341B46D7EC93BFF" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\DotNetZip.pdb" />
+            </Component>
+            <Component Id="cmp53130FA4DA836C8CE9F5A844E00272E8" Guid="*">
+                <File Id="fil69ACB5A6EA09ED3D7B93872564D7ED77" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\DotNetZip.xml" />
+            </Component>
+            <Component Id="cmp18B1E2FE76B1AC7BED10A474C7A497D9" Guid="*">
+                <File KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.exe" Id="ConfigurationToolExecutable" />
+            </Component>
+            <Component Id="cmpDF2DDD90C6E05ED843A0E93E72A4A231" Guid="*">
+                <File Id="filA3A90669473A8BB934EBD98D4ECE0CD0" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.exe.config" />
+            </Component>
+            <Component Id="cmp0937574B9A075FC4D3B16F2C0CEB78C9" Guid="*">
+                <File Id="fil110D10D58A899B1C834858BD1BFE9DFD" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.pdb" />
+            </Component>
+            <Directory Id="dir0398551971E3A3E201A63509DCED2212" Name="de">
+                <Component Id="cmp0D56F27B0E1F1380E27B59422C68EECF" Guid="*">
+                    <File Id="filBD6ABE7E271385020D4ADA8D582527C5" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\de\SEBConfigTool.resources.dll" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ConfigurationComponents">
+            <ComponentRef Id="cmp263DF78910BE75FB56BBDA8048A76DFA" />
+            <ComponentRef Id="cmp3B3087435BF8B729312F64574A5D7F04" />
+            <ComponentRef Id="cmp53130FA4DA836C8CE9F5A844E00272E8" />
+            <ComponentRef Id="cmp18B1E2FE76B1AC7BED10A474C7A497D9" />
+            <ComponentRef Id="cmpDF2DDD90C6E05ED843A0E93E72A4A231" />
+            <ComponentRef Id="cmp0937574B9A075FC4D3B16F2C0CEB78C9" />
+            <ComponentRef Id="cmp0D56F27B0E1F1380E27B59422C68EECF" />
+        </ComponentGroup>
     </Fragment>
 </Wix>
