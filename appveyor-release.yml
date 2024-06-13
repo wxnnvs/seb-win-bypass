@@ -1,5 +1,5 @@
-version: '3.8.0.{build}'
-image: Windows
+version: '3.8.0_test.{build}'
+image: Visual Studio 2022s
 configuration: Release
 platform:
   - x64
