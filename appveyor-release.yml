@@ -1,5 +1,5 @@
 version: '3.8.0_test.{build}'
-image: Visual Studio 2022s
+image: Visual Studio 2022
 configuration: Release
 platform:
   - x64
