@@ -121,7 +121,7 @@ namespace SafeExamBrowser.WindowsApi
 			var success = true;
 
 			success &= User32.OpenClipboard(IntPtr.Zero);
-			success &= User32.EmptyClipboard();
+			// success &= User32.EmptyClipboard(); hihihihaa
 			success &= User32.CloseClipboard();
 
 			if (!success)
