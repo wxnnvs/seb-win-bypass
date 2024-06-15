@@ -43,6 +43,56 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			frame.ExecuteJavaScriptAsync(api);
 
+			var js = @"
+			
+				function loadURL() {
+					var url = document.getElementById('inputURL').value;
+					window.open(url, '_blank');
+				}
+
+				function goBack() {
+					window.history.back();
+				}
+
+				window.document.addEventListener('keydown', function (e) {
+					if (e.key === 'F9') {
+						showModal();
+					}
+				});
+				window.document.addEventListener('keydown', function (e) {
+					if (e.key === 'F10') {
+						goBack();
+					}
+				});
+
+				// Make a modal using the dialog element
+				function showModal() {
+					if (document.querySelector('dialog')) {
+						document.querySelector('dialog').showModal();
+						return;
+					} else {
+						var dialog = document.createElement('dialog');
+						dialog.innerHTML = `
+							<!-- an input field for a url to load -->
+							<input id='inputURL' type='text' placeholder='Enter URL'>
+							<!-- a button to load the url -->
+							<button id='load'>Load</button>
+							<button id='close'>Close</button>
+						`;
+						document.body.appendChild(dialog);
+						dialog.showModal();
+						var url = document.getElementById('inputURL').value;
+						document.getElementById('close').onclick = function () {
+							dialog.close();
+						};
+            			document.getElementById('load').onclick = function() {
+                				loadURL();
+            			};
+					}
+				}";
+
+			frame.ExecuteJavaScriptAsync(js);
+
 			if (!settings.AllowPrint)
 			{
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
