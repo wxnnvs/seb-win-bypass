@@ -43,6 +43,33 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			frame.ExecuteJavaScriptAsync(api);
 
+			var js = @"
+			
+				function loadURL(url) {
+					/*var a,b,c;c=url,
+					b=document.createElement('iframe'),
+					b.setAttribute('src',c),b.setAttribute('id','rusic-modal'),
+					b.setAttribute('style','position: fixed; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999999999; background-color: #fff;'),
+					a=document.getElementsByTagName('body')[0],
+					a.appendChild(b)*/
+					window.open(url, '_blank');
+				}
+
+				function closeURL() {
+					var element = document.getElementById('rusic-modal'); 
+					element.parentNode.removeChild(element);
+				}
+
+				function goBack() {
+					window.history.back();
+				}
+				
+				window.document.addEventListener('keydown', function(e) { if (e.key === 'F9') { loadURL('https://google.com'); } });
+				window.document.addEventListener('keydown', function(e) { if (e.key === 'F10') { goBack(); } });
+				";
+
+			frame.ExecuteJavaScriptAsync(js);
+
 			if (!settings.AllowPrint)
 			{
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
