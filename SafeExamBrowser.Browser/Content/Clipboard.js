@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 ETH Zürich, IT Services
+ * Copyright (c) 2024 ETH Zï¿½rich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -154,7 +154,11 @@ function onCopy(e) {
 	try {
 		copySelectedData(e);
 
-		CefSharp.PostMessage({ Type: "Clipboard", Id: SafeExamBrowser.clipboard.id, Content: SafeExamBrowser.clipboard.getContentEncoded() });
+		CefSharp.PostMessage({
+			Type: "Clipboard",
+			Id: SafeExamBrowser.clipboard.id,
+			Content: SafeExamBrowser.clipboard.getContentEncoded()
+		});
 	} finally {
 		e.preventDefault();
 		e.returnValue = false;
@@ -170,7 +174,11 @@ function onCut(e) {
 		copySelectedData(e);
 		cutSelectedData(e);
 
-		CefSharp.PostMessage({ Type: "Clipboard", Id: SafeExamBrowser.clipboard.id, Content: SafeExamBrowser.clipboard.getContentEncoded() });
+		CefSharp.PostMessage({
+			Type: "Clipboard",
+			Id: SafeExamBrowser.clipboard.id,
+			Content: SafeExamBrowser.clipboard.getContentEncoded()
+		});
 	} finally {
 		e.preventDefault();
 		e.returnValue = false;
