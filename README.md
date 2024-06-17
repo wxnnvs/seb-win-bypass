@@ -1,7 +1,5 @@
 # UnSafe Exam Browser
 
-Thx to @Skwll for teaching me how to compile
+don't use the master branch
 
-- [x] Remove clipboard checks
-- [ ] Add google.com iframe
-- [ ] Give back control over pc
+go to [v3.7.1](https://github.com/wxnnvs/seb-win-bypass/tree/v3.7.1)
