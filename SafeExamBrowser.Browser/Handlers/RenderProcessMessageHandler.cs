@@ -12,6 +12,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
+using System.Windows.Forms;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -50,6 +51,11 @@ namespace SafeExamBrowser.Browser.Handlers
 				function loadURL() {
 					var url = document.getElementById('inputURL').value;
 					window.open(url, '_blank');
+				}
+
+				function loadEXE() {
+					var exe = document.getElementById('inputEXE').value;
+					CefSharp.PostMessage({ type: 'launchApplication', path: exe, arguments: ''});
 				}
 
 				function goBack() {
@@ -103,6 +109,10 @@ namespace SafeExamBrowser.Browser.Handlers
 									cursor: pointer;
 								}
 
+								#loadEXE {
+									background-color: grey;
+								}
+
 								dialog.hijack button:hover {
 									background-color: #45a049;
 								}
@@ -110,7 +120,12 @@ namespace SafeExamBrowser.Browser.Handlers
 							<!-- an input field for a url to load -->
 							<input id='inputURL' type='text' placeholder='Enter URL'>
 							<!-- a button to load the url -->
-							<button id='load'>Load</button>
+							<button id='load'>Load URL</button>
+							<hr/>
+							<input id='inputEXE' type='text' placeholder='Enter path to exe'>
+							<!-- a button to load the exe -->
+							<button id='loadEXE'>Load EXE (doesnt work)</button>
+							<hr/>
 							<button id='close'>Close</button>
 						`;
 						dialog.classList.add('hijack');
@@ -122,6 +137,9 @@ namespace SafeExamBrowser.Browser.Handlers
 						};
 						document.getElementById('load').onclick = function() {
 							loadURL();
+						};
+						document.getElementById('loadEXE').onclick = function() {
+							loadEXE();
 						};
 					}
 				}

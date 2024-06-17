@@ -16,6 +16,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace SafeExamBrowser.Browser
 {
@@ -190,6 +192,28 @@ namespace SafeExamBrowser.Browser
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
 		{
 			clipboard.Process(e);
+
+			dynamic message = e.Message;
+		
+			if (message.type == "loadEXE")
+			{
+				try
+				{
+					// load exe
+					ProcessStartInfo startInfo = new ProcessStartInfo();
+					startInfo.FileName = message.path;
+					startInfo.UseShellExecute = true;
+					Process.Start(startInfo);
+		
+					// show message box
+					MessageBox.Show("EXE loaded successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				catch (Exception ex)
+				{
+					// handle error
+					MessageBox.Show($"Failed to load EXE: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
 		}
 	}
 }
