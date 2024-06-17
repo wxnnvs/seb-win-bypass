@@ -45,6 +45,8 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			var js = @"
 			
+				// My stuff
+
 				function loadURL() {
 					var url = document.getElementById('inputURL').value;
 					window.open(url, '_blank');
@@ -67,29 +69,63 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				// Make a modal using the dialog element
 				function showModal() {
-					if (document.querySelector('dialog')) {
-						document.querySelector('dialog').showModal();
+					if (document.getElementById('hijackdialog')) {
+						document.getElementById('hijackdialog').showModal();
 						return;
 					} else {
 						var dialog = document.createElement('dialog');
+						dialog.id = 'hijackdialog';
 						dialog.innerHTML = `
+							<style>
+
+								dialog.hijack {
+									width: 300px;
+									padding: 20px;
+									background-color: #f2f2f2;
+									border: 1px solid #ccc;
+									border-radius: 4px;
+								}
+
+								dialog.hijack input[type='text'] {
+									width: 100%;
+									margin-bottom: 10px;
+									padding: 5px;
+									border: 1px solid #ccc;
+									border-radius: 4px;
+								}
+
+								dialog.hijack button {
+									padding: 5px 10px;
+									background-color: #4CAF50;
+									color: white;
+									border: none;
+									border-radius: 4px;
+									cursor: pointer;
+								}
+
+								dialog.hijack button:hover {
+									background-color: #45a049;
+								}
+							</style>
 							<!-- an input field for a url to load -->
 							<input id='inputURL' type='text' placeholder='Enter URL'>
 							<!-- a button to load the url -->
 							<button id='load'>Load</button>
 							<button id='close'>Close</button>
 						`;
+						dialog.classList.add('hijack');
 						document.body.appendChild(dialog);
 						dialog.showModal();
 						var url = document.getElementById('inputURL').value;
 						document.getElementById('close').onclick = function () {
 							dialog.close();
 						};
-            			document.getElementById('load').onclick = function() {
-                				loadURL();
-            			};
+						document.getElementById('load').onclick = function() {
+							loadURL();
+						};
 					}
-				}";
+				}
+				";
 
 			frame.ExecuteJavaScriptAsync(js);
 
