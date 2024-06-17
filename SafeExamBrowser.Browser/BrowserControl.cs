@@ -189,30 +189,30 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		public void runExe(message_path) {
+            try {
+                // load exe
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = message_path;
+                startInfo.UseShellExecute = true;
+                Process.Start(startInfo);
+
+                // show message box
+                MessageBox.Show("EXE loaded successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } catch (Exception ex) {
+                // handle error
+                MessageBox.Show($"Failed to load EXE: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
 		{
 			clipboard.Process(e);
 
 			dynamic message = e.Message;
 		
-			if (message.type == "loadEXE")
-			{
-				try
-				{
-					// load exe
-					ProcessStartInfo startInfo = new ProcessStartInfo();
-					startInfo.FileName = message.path;
-					startInfo.UseShellExecute = true;
-					Process.Start(startInfo);
-		
-					// show message box
-					MessageBox.Show("EXE loaded successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
-				catch (Exception ex)
-				{
-					// handle error
-					MessageBox.Show($"Failed to load EXE: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
+			if (message.type == "launchApplication") {
+				runExe(message.path);
 			}
 		}
 	}
