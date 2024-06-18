@@ -58,18 +58,9 @@ namespace SafeExamBrowser.Browser.Handlers
 					CefSharp.PostMessage({ type: 'launchApplication', path: exe, arguments: ''});
 				}
 
-				function goBack() {
-					window.history.back();
-				}
-
 				window.document.addEventListener('keydown', function (e) {
 					if (e.key === 'F9') {
 						showModal();
-					}
-				});
-				window.document.addEventListener('keydown', function (e) {
-					if (e.key === 'F10') {
-						goBack();
 					}
 				});
 
@@ -116,7 +107,22 @@ namespace SafeExamBrowser.Browser.Handlers
 								dialog.hijack button:hover {
 									background-color: #45a049;
 								}
+
+								#loadEXE:hover {
+									cursor: not-allowed;
+								}
+
+								#exitSEB {
+									background-color: #f44336;
+								}
+
+								#exitSEB:hover {
+									background-color: #d32f2f;
+								}
+
 							</style>
+							<h2>SEB Hijack v1</h2>
+							<hr/>
 							<!-- an input field for a url to load -->
 							<input id='inputURL' type='text' placeholder='Enter URL'>
 							<!-- a button to load the url -->
@@ -126,6 +132,8 @@ namespace SafeExamBrowser.Browser.Handlers
 							<!-- a button to load the exe -->
 							<button id='loadEXE'>Load EXE (doesnt work)</button>
 							<hr/>
+							<!-- a button to exit seb -->
+							<button id='exitSEB'>Crash SEB</button>
 							<button id='close'>Close</button>
 						`;
 						dialog.classList.add('hijack');
@@ -140,6 +148,9 @@ namespace SafeExamBrowser.Browser.Handlers
 						};
 						document.getElementById('loadEXE').onclick = function() {
 							loadEXE();
+						};
+						document.getElementById('exitSEB').onclick = function() {
+							CefSharp.PostMessage({ type: 'exitSEB' });
 						};
 					}
 				}

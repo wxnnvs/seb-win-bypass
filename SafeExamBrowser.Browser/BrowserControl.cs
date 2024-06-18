@@ -189,11 +189,11 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		public void runExe(message_path) {
+		public void runExe(string message_path) {
             try {
                 // load exe
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = message_path;
+				ProcessStartInfo startInfo = new ProcessStartInfo();
+				startInfo.FileName = message_path.Replace('/', '\\');
                 startInfo.UseShellExecute = true;
                 Process.Start(startInfo);
 
@@ -212,7 +212,16 @@ namespace SafeExamBrowser.Browser
 			dynamic message = e.Message;
 		
 			if (message.type == "launchApplication") {
-				runExe(message.path);
+
+				MessageBox.Show("EXE loading is not yet available", "EXE Loader", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			
+			} else if (message.type == "exitSEB") {
+				
+				if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+				{
+					Environment.Exit(0);
+				}
+			
 			}
 		}
 	}
