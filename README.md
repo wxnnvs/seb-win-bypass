@@ -1,5 +1,10 @@
 # UnSafe Exam Browser
 
-don't use the master branch
+Bypass SEB limitations
 
-go to [v3.7.1](https://github.com/wxnnvs/seb-win-bypass/tree/v3.7.1)
+Use the [v3.7.1](https://github.com/wxnnvs/seb-win-bypass/tree/v3.7.1) branch
+
+### Disclaimer
+
+This project is provided as a proof of concept to show that making exam applications opensource is a dumb idea
+I do not condone any forms of cheating nor can I be held liable for other peoples actions
