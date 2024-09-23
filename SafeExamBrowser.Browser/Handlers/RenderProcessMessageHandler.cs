@@ -54,7 +54,6 @@ var js = @"
 				// Add event listener for F9 key to open the dialog
 				document.addEventListener('keydown', (event) => {
 					if (event.key === 'F9') {
-						alert('F9 pressed');
 						document.getElementById('SEB_Hijack').showModal();
 					}
 				});
