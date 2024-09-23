@@ -9,6 +9,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CefSharp;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
@@ -188,8 +189,18 @@ namespace SafeExamBrowser.Browser
 		}
 
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
-		{
+		{	
 			clipboard.Process(e);
+
+			dynamic message = e.Message;
+			if (message.type == "exitSEB")
+			{
+				if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+				{
+					Environment.Exit(0);
+				}
+
+			}
 		}
 	}
 }
