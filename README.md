@@ -2,7 +2,7 @@
 
 Bypass SEB limitations
 
-Use the [v3.7.1](https://github.com/wxnnvs/seb-win-bypass/tree/v3.7.1) branch
+Use the [3.7.1](https://github.com/wxnnvs/seb-win-bypass/tree/3.7.1) branch
 
 ### Disclaimer
 
