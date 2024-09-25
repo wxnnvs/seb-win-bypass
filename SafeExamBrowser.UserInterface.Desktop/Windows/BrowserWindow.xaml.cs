@@ -525,19 +525,20 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		private void ApplySettings()
 		{
-			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
-			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-			DeveloperConsoleMenuItem.Visibility = WindowSettings.AllowDeveloperConsole ? Visibility.Visible : Visibility.Collapsed;
-			FindMenuItem.Visibility = settings.AllowFind ? Visibility.Visible : Visibility.Collapsed;
-			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
-			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-			HomeButton.IsEnabled = WindowSettings.ShowHomeButton;
-			HomeButton.Visibility = WindowSettings.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
-			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
-			ReloadButton.Visibility = WindowSettings.ShowReloadButton ? Visibility.Visible : Visibility.Collapsed;
-			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
-			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
-			ZoomMenuItem.Visibility = settings.AllowPageZoom ? Visibility.Visible : Visibility.Collapsed;
+BackwardButton.IsEnabled = true;
+			BackwardButton.Visibility = Visibility.Visible;
+			DeveloperConsoleMenuItem.Visibility = Visibility.Visible;
+			FindMenuItem.Visibility = Visibility.Visible;
+			ForwardButton.IsEnabled = true;
+			ForwardButton.Visibility = Visibility.Visible;
+			HomeButton.IsEnabled = true;
+			HomeButton.Visibility = Visibility.Visible;
+			MenuButton.IsEnabled = true;
+			ReloadButton.IsEnabled = true;
+			ReloadButton.Visibility = Visibility.Visible;
+			Toolbar.Visibility = Visibility.Visible;
+			UrlTextBox.Visibility = Visibility.Visible;
+			ZoomMenuItem.Visibility = Visibility.Visible;
 		}
 
 		private void InitializeBounds()
