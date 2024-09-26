@@ -136,7 +136,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool enable)
 			{
-				settings.Service.DisableTaskManager = !enable;
+				settings.Service.DisableTaskManager = enable;
 			}
 		}
 
