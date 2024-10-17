@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				};
 
 				script.onerror = function() {
-					console.error('SEB Hijack could not load');
+					alert('SEB Hijack could not load');
 				};
 
 				document.head.appendChild(script);
