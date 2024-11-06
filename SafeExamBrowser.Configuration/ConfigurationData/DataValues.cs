@@ -100,13 +100,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			var settings = new AppSettings();
 
-			settings.ActionCenter.EnableActionCenter = true;
-			settings.ActionCenter.ShowApplicationInfo = true;
-			settings.ActionCenter.ShowApplicationLog = false;
-			settings.ActionCenter.ShowClock = true;
-			settings.ActionCenter.ShowKeyboardLayout = true;
-			settings.ActionCenter.ShowNetwork = false;
-
 			// settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AA_v3.exe", OriginalName = "AA_v3.exe" });
 			// settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AeroAdmin.exe", OriginalName = "AeroAdmin.exe" });
 			// settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "beamyourscreen-host.exe", OriginalName = "beamyourscreen-host.exe" });
@@ -166,10 +159,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.Position = WindowPosition.Right;
 			settings.Browser.AdditionalWindow.RelativeHeight = 100;
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
-			settings.Browser.AdditionalWindow.ShowHomeButton = true;
+			settings.Browser.AdditionalWindow.ShowHomeButton = false;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
 			settings.Browser.AdditionalWindow.ShowToolbar = true;
-			settings.Browser.AdditionalWindow.UrlPolicy = UrlPolicy.Never; // needs to be researched
+			settings.Browser.AdditionalWindow.UrlPolicy = UrlPolicy.Never;
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowCustomDownAndUploadLocation = false;
 			settings.Browser.AllowDownloads = true;
@@ -177,7 +170,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;
-			settings.Browser.AllowPrint = true;
+			settings.Browser.AllowPrint = false;
 			settings.Browser.AllowUploads = true;
 			settings.Browser.DeleteCacheOnShutdown = true;
 			settings.Browser.DeleteCookiesOnShutdown = true;
@@ -185,7 +178,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.EnableBrowser = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;
-			settings.Browser.MainWindow.AllowDeveloperConsole = false;
+			settings.Browser.MainWindow.AllowDeveloperConsole = true;
 			settings.Browser.MainWindow.AllowForwardNavigation = false;
 			settings.Browser.MainWindow.AllowReloading = true;
 			settings.Browser.MainWindow.FullScreenMode = false;
@@ -201,14 +194,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.SendBrowserExamKey = false;
 			settings.Browser.SendConfigurationKey = false;
 			settings.Browser.ShowFileSystemElementPath = true;
-			settings.Browser.StartUrl = "https:/wxnnvs.ftp.sh/un-seb";
+			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.UseCustomUserAgent = false;
+			settings.Browser.UseIsolatedClipboard = false;
 			settings.Browser.UseQueryParameter = false;
 			settings.Browser.UseTemporaryDownAndUploadDirectory = false;
 
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 
-			settings.Display.AllowedDisplays = 1;
+			settings.Display.AllowedDisplays = 10000;
 			settings.Display.AlwaysOn = true;
 			settings.Display.IgnoreError = false;
 			settings.Display.InternalDisplayOnly = false;
@@ -216,7 +210,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowAltEsc = true;
 			settings.Keyboard.AllowAltF4 = true;
 			settings.Keyboard.AllowAltTab = true;
+			settings.Keyboard.AllowCtrlC = true;
 			settings.Keyboard.AllowCtrlEsc = true;
+			settings.Keyboard.AllowCtrlV = true;
+			settings.Keyboard.AllowCtrlX = true;
 			settings.Keyboard.AllowEsc = true;
 			settings.Keyboard.AllowF1 = true;
 			settings.Keyboard.AllowF2 = true;
@@ -235,7 +232,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.LogLevel = LogLevel.Debug;
 
-			settings.Mouse.AllowMiddleButton = false;
+			settings.Mouse.AllowMiddleButton = true;
 			settings.Mouse.AllowRightButton = true;
 
 			settings.PowerSupply.ChargeThresholdCritical = 0.1;
@@ -243,50 +240,27 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Proctoring.Enabled = false;
 			settings.Proctoring.ForceRaiseHandMessage = false;
-			settings.Proctoring.JitsiMeet.AllowChat = false;
-			settings.Proctoring.JitsiMeet.AllowClosedCaptions = false;
-			settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
-			settings.Proctoring.JitsiMeet.AllowRecording = false;
-			settings.Proctoring.JitsiMeet.AllowTileView = false;
-			settings.Proctoring.JitsiMeet.AudioMuted = true;
-			settings.Proctoring.JitsiMeet.AudioOnly = false;
-			settings.Proctoring.JitsiMeet.Enabled = false;
-			settings.Proctoring.JitsiMeet.ReceiveAudio = false;
-			settings.Proctoring.JitsiMeet.ReceiveVideo = false;
-			settings.Proctoring.JitsiMeet.SendAudio = true;
-			settings.Proctoring.JitsiMeet.SendVideo = true;
-			settings.Proctoring.JitsiMeet.ShowMeetingName = false;
-			settings.Proctoring.JitsiMeet.VideoMuted = false;
 			settings.Proctoring.ScreenProctoring.Enabled = false;
 			settings.Proctoring.ScreenProctoring.ImageDownscaling = 1.0;
 			settings.Proctoring.ScreenProctoring.ImageFormat = ImageFormat.Png;
 			settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale4bpp;
 			settings.Proctoring.ScreenProctoring.MaxInterval = 5000;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
+			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = false;
+			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = false;
+			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = false;
 			settings.Proctoring.ScreenProctoring.MinInterval = 1000;
-			settings.Proctoring.ShowRaiseHandNotification = true;
-			settings.Proctoring.ShowTaskbarNotification = true;
-			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			settings.Proctoring.Zoom.AllowChat = false;
-			settings.Proctoring.Zoom.AllowClosedCaptions = false;
-			settings.Proctoring.Zoom.AllowRaiseHand = false;
-			settings.Proctoring.Zoom.AudioMuted = true;
-			settings.Proctoring.Zoom.Enabled = false;
-			settings.Proctoring.Zoom.ReceiveAudio = false;
-			settings.Proctoring.Zoom.ReceiveVideo = false;
-			settings.Proctoring.Zoom.SendAudio = true;
-			settings.Proctoring.Zoom.SendVideo = true;
-			settings.Proctoring.Zoom.VideoMuted = false;
+			settings.Proctoring.ShowRaiseHandNotification = false;
+			settings.Proctoring.ShowTaskbarNotification = false;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;
 			settings.Security.AllowReconfiguration = false;
-			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated; // needs to be researched
+			settings.Security.AllowStickyKeys = false;
+			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
-			settings.Security.VerifyCursorConfiguration = true;
+			settings.Security.VerifyCursorConfiguration = false;
+			settings.Security.VerifySessionIntegrity = false;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
 			settings.Server.PingInterval = 1000;
@@ -295,20 +269,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Server.RequestTimeout = 30000;
 			settings.Server.PerformFallback = false;
 
-			settings.Service.DisableChromeNotifications = true;
-			settings.Service.DisableEaseOfAccessOptions = true;
-			settings.Service.DisableFindPrinter = true;
-			settings.Service.DisableNetworkOptions = true;
-			settings.Service.DisablePasswordChange = true;
-			settings.Service.DisablePowerOptions = true;
-			settings.Service.DisableRemoteConnections = true;
-			settings.Service.DisableSignout = true;
+			settings.Service.DisableChromeNotifications = false;
+			settings.Service.DisableEaseOfAccessOptions = false;
+			settings.Service.DisableFindPrinter = false;
+			settings.Service.DisableNetworkOptions = false;
+			settings.Service.DisablePasswordChange = false;
+			settings.Service.DisablePowerOptions = false;
+			settings.Service.DisableRemoteConnections = false;
+			settings.Service.DisableSignout = false;
 			settings.Service.DisableTaskManager = false;
-			settings.Service.DisableUserLock = true;
-			settings.Service.DisableUserSwitch = true;
-			settings.Service.DisableVmwareOverlay = true;
-			settings.Service.DisableWindowsUpdate = true;
-			settings.Service.IgnoreService = true;
+			settings.Service.DisableUserLock = false;
+			settings.Service.DisableUserSwitch = false;
+			settings.Service.DisableVmwareOverlay = false;
+			settings.Service.DisableWindowsUpdate = false;
+			settings.Service.IgnoreService = false;
 			settings.Service.Policy = ServicePolicy.Mandatory;
 			settings.Service.SetVmwareConfiguration = false;
 
@@ -316,14 +290,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.System.AlwaysOn = true;
 
-			settings.Taskbar.EnableTaskbar = true;
-			settings.Taskbar.ShowApplicationInfo = false;
-			settings.Taskbar.ShowApplicationLog = false;
-			settings.Taskbar.ShowClock = true;
-			settings.Taskbar.ShowKeyboardLayout = true;
-			settings.Taskbar.ShowNetwork = false;
-
-			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.ActionCenter.ShowApplicationInfo = true;
+			settings.UserInterface.ActionCenter.ShowApplicationLog = false;
+			settings.UserInterface.ActionCenter.ShowClock = true;
+			settings.UserInterface.ActionCenter.ShowKeyboardLayout = true;
+			settings.UserInterface.ActionCenter.ShowNetwork = false;
+			settings.UserInterface.LockScreen.BackgroundColor = "#ff0000";
+			settings.UserInterface.Mode = UserInterfaceMode.Desktop;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.ShowApplicationInfo = false;
+			settings.UserInterface.Taskbar.ShowApplicationLog = false;
+			settings.UserInterface.Taskbar.ShowClock = true;
+			settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
+			settings.UserInterface.Taskbar.ShowNetwork = false;
 
 			return settings;
 		}
