@@ -5,4 +5,5 @@ Refactored version of Safe Exam Browser for Windows allowing you to open URL's i
 ## Project Status
 
 [![Total Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/total.svg)]()
-[![Latest Release Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/latest/total.svg)]()
+[![Patch-Seb downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/patch-seb.exe)]()
+[![Latest Release Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/latest/patch-seb.exe)]()
