@@ -21,6 +21,7 @@ using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.UserInterface;
+using static SafeExamBrowser.Settings.UserInterface.UserInterfaceSettings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -100,12 +101,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			var settings = new AppSettings();
 
-			settings.ActionCenter.EnableActionCenter = true;
-			settings.ActionCenter.ShowApplicationInfo = true;
-			settings.ActionCenter.ShowApplicationLog = false;
-			settings.ActionCenter.ShowClock = true;
-			settings.ActionCenter.ShowKeyboardLayout = true;
-			settings.ActionCenter.ShowNetwork = false;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.ActionCenter.ShowApplicationInfo = true;
+			settings.UserInterface.ActionCenter.ShowApplicationLog = false;
+			settings.UserInterface.ActionCenter.ShowClock = true;
+			settings.UserInterface.ActionCenter.ShowKeyboardLayout = true;
+			settings.UserInterface.ActionCenter.ShowNetwork = false;
 
 			// settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AA_v3.exe", OriginalName = "AA_v3.exe" });
 			// settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AeroAdmin.exe", OriginalName = "AeroAdmin.exe" });
@@ -241,44 +242,44 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.PowerSupply.ChargeThresholdCritical = 0.1;
 			settings.PowerSupply.ChargeThresholdLow = 0.2;
 
-			settings.Proctoring.Enabled = false;
-			settings.Proctoring.ForceRaiseHandMessage = false;
-			settings.Proctoring.JitsiMeet.AllowChat = false;
-			settings.Proctoring.JitsiMeet.AllowClosedCaptions = false;
-			settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
-			settings.Proctoring.JitsiMeet.AllowRecording = false;
-			settings.Proctoring.JitsiMeet.AllowTileView = false;
-			settings.Proctoring.JitsiMeet.AudioMuted = true;
-			settings.Proctoring.JitsiMeet.AudioOnly = false;
-			settings.Proctoring.JitsiMeet.Enabled = false;
-			settings.Proctoring.JitsiMeet.ReceiveAudio = false;
-			settings.Proctoring.JitsiMeet.ReceiveVideo = false;
-			settings.Proctoring.JitsiMeet.SendAudio = true;
-			settings.Proctoring.JitsiMeet.SendVideo = true;
-			settings.Proctoring.JitsiMeet.ShowMeetingName = false;
-			settings.Proctoring.JitsiMeet.VideoMuted = false;
-			settings.Proctoring.ScreenProctoring.Enabled = false;
-			settings.Proctoring.ScreenProctoring.ImageDownscaling = 1.0;
-			settings.Proctoring.ScreenProctoring.ImageFormat = ImageFormat.Png;
-			settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale4bpp;
-			settings.Proctoring.ScreenProctoring.MaxInterval = 5000;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
-			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
-			settings.Proctoring.ScreenProctoring.MinInterval = 1000;
-			settings.Proctoring.ShowRaiseHandNotification = true;
-			settings.Proctoring.ShowTaskbarNotification = true;
-			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			settings.Proctoring.Zoom.AllowChat = false;
-			settings.Proctoring.Zoom.AllowClosedCaptions = false;
-			settings.Proctoring.Zoom.AllowRaiseHand = false;
-			settings.Proctoring.Zoom.AudioMuted = true;
-			settings.Proctoring.Zoom.Enabled = false;
-			settings.Proctoring.Zoom.ReceiveAudio = false;
-			settings.Proctoring.Zoom.ReceiveVideo = false;
-			settings.Proctoring.Zoom.SendAudio = true;
-			settings.Proctoring.Zoom.SendVideo = true;
-			settings.Proctoring.Zoom.VideoMuted = false;
+			// settings.Proctoring.Enabled = false;
+			// settings.Proctoring.ForceRaiseHandMessage = false;
+			// settings.Proctoring.JitsiMeet.AllowChat = false;
+			// settings.Proctoring.JitsiMeet.AllowClosedCaptions = false;
+			// settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
+			// settings.Proctoring.JitsiMeet.AllowRecording = false;
+			// settings.Proctoring.JitsiMeet.AllowTileView = false;
+			// settings.Proctoring.JitsiMeet.AudioMuted = true;
+			// settings.Proctoring.JitsiMeet.AudioOnly = false;
+			// settings.Proctoring.JitsiMeet.Enabled = false;
+			// settings.Proctoring.JitsiMeet.ReceiveAudio = false;
+			// settings.Proctoring.JitsiMeet.ReceiveVideo = false;
+			// settings.Proctoring.JitsiMeet.SendAudio = true;
+			// settings.Proctoring.JitsiMeet.SendVideo = true;
+			// settings.Proctoring.JitsiMeet.ShowMeetingName = false;
+			// settings.Proctoring.JitsiMeet.VideoMuted = false;
+			// settings.Proctoring.ScreenProctoring.Enabled = false;
+			// settings.Proctoring.ScreenProctoring.ImageDownscaling = 1.0;
+			// settings.Proctoring.ScreenProctoring.ImageFormat = ImageFormat.Png;
+			// settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale4bpp;
+			// settings.Proctoring.ScreenProctoring.MaxInterval = 5000;
+			// settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
+			// settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
+			// settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
+			// settings.Proctoring.ScreenProctoring.MinInterval = 1000;
+			// settings.Proctoring.ShowRaiseHandNotification = true;
+			// settings.Proctoring.ShowTaskbarNotification = true;
+			// settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
+			// settings.Proctoring.Zoom.AllowChat = false;
+			// settings.Proctoring.Zoom.AllowClosedCaptions = false;
+			// settings.Proctoring.Zoom.AllowRaiseHand = false;
+			// settings.Proctoring.Zoom.AudioMuted = true;
+			// settings.Proctoring.Zoom.Enabled = false;
+			// settings.Proctoring.Zoom.ReceiveAudio = false;
+			// settings.Proctoring.Zoom.ReceiveVideo = false;
+			// settings.Proctoring.Zoom.SendAudio = true;
+			// settings.Proctoring.Zoom.SendVideo = true;
+			// settings.Proctoring.Zoom.VideoMuted = false;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;
@@ -316,14 +317,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.System.AlwaysOn = true;
 
-			settings.Taskbar.EnableTaskbar = true;
-			settings.Taskbar.ShowApplicationInfo = false;
-			settings.Taskbar.ShowApplicationLog = false;
-			settings.Taskbar.ShowClock = true;
-			settings.Taskbar.ShowKeyboardLayout = true;
-			settings.Taskbar.ShowNetwork = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.ShowApplicationInfo = false;
+			settings.UserInterface.Taskbar.ShowApplicationLog = false;
+			settings.UserInterface.Taskbar.ShowClock = true;
+			settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
+			settings.UserInterface.Taskbar.ShowNetwork = false;
 
-			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
+			settings.UserInterface.Mode = UserInterfaceMode.Desktop;
 
 			return settings;
 		}
