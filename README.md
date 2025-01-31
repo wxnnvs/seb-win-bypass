@@ -4,4 +4,3 @@ Bypass SEB limitations
 
 Project status:
 [![Total Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/total.svg)]()
-[![Latest Release Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/latest)]()
