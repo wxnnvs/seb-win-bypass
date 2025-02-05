@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -141,7 +142,7 @@ namespace SafeExamBrowser.Browser
 
 			if (control is IWebBrowser webBrowser)
 			{
-				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
+				webBrowser.JavascriptMessageReceived += async (sender, e) => await WebBrowser_JavascriptMessageReceivedAsync(sender, e);
 			}
 		}
 
@@ -188,19 +189,35 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
-		{	
-			clipboard.Process(e);
+        private async Task WebBrowser_JavascriptMessageReceivedAsync(object sender, JavascriptMessageReceivedEventArgs e)
+        {
+            clipboard.Process(e);
 
-			dynamic message = e.Message;
-			if (message.type == "exitSEB")
-			{
-				if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            dynamic message = e.Message;
+            if (message.type == "exitSEB")
+            {
+                if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    Environment.Exit(0);
+                }
+            }
+
+            if (message.type == "screenshot")
+            {
+                var settings = new PdfPrintSettings();
+                string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+                string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+                var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
+				var owner = control as IWin32Window;
+				if (succes)
 				{
-					Environment.Exit(0);
+					MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
-
+				else
+				{
+					MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-		}
-	}
+        }
+    }
 }
