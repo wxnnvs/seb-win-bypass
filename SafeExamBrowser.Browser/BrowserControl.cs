@@ -12,12 +12,15 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
+using CefSharp.WinForms;
+using CefSharp.Core;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
+using CefSharp.DevTools.Page;
 
 namespace SafeExamBrowser.Browser
 {
@@ -145,7 +148,7 @@ namespace SafeExamBrowser.Browser
 
 			if (control is IWebBrowser webBrowser)
 			{
-				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
+				webBrowser.JavascriptMessageReceived += async (sender, e) => await WebBrowser_JavascriptMessageReceived(sender, e);
 			}
 		}
 
@@ -192,7 +195,7 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+		private async Task WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
 		{
 			clipboard.Process(e);
 
@@ -208,22 +211,10 @@ namespace SafeExamBrowser.Browser
 
 			if (message.type == "screenshot")
 			{
-				var contentSize = await chromiumWebBrowser.GetContentSizeAsync();
-
-				var viewPort = new DevTools.Page.Viewport
-				{
-					Width = contentSize.Width,
-					Height = contentSize.Height,
-				};
-
-				var data = await chromiumWebBrowser.CaptureScreenshotAsync(viewPort: viewPort, captureBeyondViewport: true);
-
-				var downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDownloads);
-
-				var screenshotPath = downloadPath + "\\" + DateTime.Now.Ticks + ".jpg";
-
-				File.WriteAllBytes(screenshotPath, data);
-				MessageBox.Show($"Screenshot saved as {screenshotPath}", "Screenshot Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				// Print current page as PDF
+				var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "screenshot.png");
+				await chromiumWebBrowser.CaptureScreenshotAsync(CaptureScreenshotFormat.Png);
+				MessageBox.Show("Screenshot saved to " + screenshotPath);
 
 			}
 		}
