@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
@@ -31,6 +32,9 @@ namespace SafeExamBrowser.Browser
 		private readonly ILogger logger;
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
+
+		//screenshot needs this
+		private readonly ChromiumWebBrowser chromiumWebBrowser;
 
 		public string Address => control.Address;
 		public bool CanNavigateBackwards => control.IsBrowserInitialized && control.BrowserCore.CanGoBack;
@@ -130,7 +134,7 @@ namespace SafeExamBrowser.Browser
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int)e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
@@ -189,7 +193,7 @@ namespace SafeExamBrowser.Browser
 		}
 
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
-		{	
+		{
 			clipboard.Process(e);
 
 			dynamic message = e.Message;
@@ -199,6 +203,27 @@ namespace SafeExamBrowser.Browser
 				{
 					Environment.Exit(0);
 				}
+
+			}
+
+			if (message.type == "screenshot")
+			{
+				var contentSize = await chromiumWebBrowser.GetContentSizeAsync();
+
+				var viewPort = new DevTools.Page.Viewport
+				{
+					Width = contentSize.Width,
+					Height = contentSize.Height,
+				};
+
+				var data = await chromiumWebBrowser.CaptureScreenshotAsync(viewPort: viewPort, captureBeyondViewport: true);
+
+				var downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDownloads);
+
+				var screenshotPath = downloadPath + "\\" + DateTime.Now.Ticks + ".jpg";
+
+				File.WriteAllBytes(screenshotPath, data);
+				MessageBox.Show($"Screenshot saved as {screenshotPath}", "Screenshot Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			}
 		}
