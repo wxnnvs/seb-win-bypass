@@ -8,19 +8,15 @@
 
 using System;
 using System.Linq;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
-using CefSharp.WinForms;
-using CefSharp.Core;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
-using CefSharp.DevTools.Page;
 
 namespace SafeExamBrowser.Browser
 {
@@ -35,9 +31,6 @@ namespace SafeExamBrowser.Browser
 		private readonly ILogger logger;
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
-
-		//screenshot needs this
-		private readonly ChromiumWebBrowser chromiumWebBrowser;
 
 		public string Address => control.Address;
 		public bool CanNavigateBackwards => control.IsBrowserInitialized && control.BrowserCore.CanGoBack;
@@ -137,7 +130,7 @@ namespace SafeExamBrowser.Browser
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int)e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
@@ -148,7 +141,7 @@ namespace SafeExamBrowser.Browser
 
 			if (control is IWebBrowser webBrowser)
 			{
-				webBrowser.JavascriptMessageReceived += async (sender, e) => await WebBrowser_JavascriptMessageReceived(sender, e);
+				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
 			}
 		}
 
@@ -195,8 +188,8 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private async Task WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
-		{
+		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+		{	
 			clipboard.Process(e);
 
 			dynamic message = e.Message;
@@ -206,15 +199,6 @@ namespace SafeExamBrowser.Browser
 				{
 					Environment.Exit(0);
 				}
-
-			}
-
-			if (message.type == "screenshot")
-			{
-				// Print current page as PDF
-				var screenshotPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "screenshot.png");
-				await chromiumWebBrowser.CaptureScreenshotAsync(CaptureScreenshotFormat.Png);
-				MessageBox.Show("Screenshot saved to " + screenshotPath);
 
 			}
 		}
