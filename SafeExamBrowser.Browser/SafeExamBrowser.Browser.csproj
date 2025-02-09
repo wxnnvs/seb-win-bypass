@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="BrowserWindow.cs" />
+    <Compile Include="CallbackObjectForJS.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Events\ClipboardChangedEventHandler.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />

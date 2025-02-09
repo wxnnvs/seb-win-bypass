@@ -34,6 +34,9 @@ namespace SafeExamBrowser.Browser
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
 
+		// seb hijack
+		private CallbackObjectForJs _callbackObjectForJs;
+
 		public string Address => control.Address;
 		public bool CanNavigateBackwards => control.IsBrowserInitialized && control.BrowserCore.CanGoBack;
 		public bool CanNavigateForwards => control.IsBrowserInitialized && control.BrowserCore.CanGoForward;
@@ -146,11 +149,19 @@ namespace SafeExamBrowser.Browser
                 webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
 
 				// seb hijack
+
+				// this is still in development
+				var owner = control as IWin32Window;
+				_callbackObjectForJs = new CallbackObjectForJs(owner, control);
+				webBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
+				webBrowser.JavascriptObjectRepository.Register("callbackObj", _callbackObjectForJs, isAsync: true, options: BindingOptions.DefaultBinder);
+
+				// this works kinda a little bit
 				Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
 				filterSettings.Rules.Clear();
 				using (var client = new System.Net.WebClient())
 				{
-					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
+					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_dev.js");
 					webBrowser.ExecuteScriptAsyncWhenPageLoaded(the_script);
 				}
 			}
@@ -200,6 +211,8 @@ namespace SafeExamBrowser.Browser
 		}
 
 		// seb hijack
+		// These are only here for reference
+		// Use the ones in the CallbackObjectForJs class instead
 		private void ExitSEB()
 		{
 			if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
