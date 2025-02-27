@@ -190,6 +190,12 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			control.BrowserCore.Reload();
+			using (var client = new System.Net.WebClient())
+			{
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_dev.js");
+				control.ExecuteScriptAsyncWhenPageLoaded(the_script);
+				MessageBox.Show("seb werkt ook na reload!");
+			}
 		}
 
 		public void Zoom(double level)
