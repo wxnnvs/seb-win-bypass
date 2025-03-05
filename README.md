@@ -1,5 +1,7 @@
 # UnSafe Exam Browser, Version 3.x
 
+**WE ARE YET TO UPDATE TO 3.9.0, BE PATIENT**
+
 Bypass SEB limitations
 
 Project status:
