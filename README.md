@@ -1,6 +1,6 @@
 # UnSafe Exam Browser, Version 3.x
 
-**WE ARE YET TO UPDATE TO 3.9.0, BE PATIENT**
+Please use the 3.9.0 branch as reference
 
 Bypass SEB limitations
 
