@@ -36,6 +36,9 @@ namespace SafeExamBrowser.Browser
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
 
+		// seb hijack
+		private CallbackObjectForJs _callbackObjectForJs;
+
 		public string Address => control.Address;
 		public bool CanNavigateBackwards => control.IsBrowserInitialized && control.BrowserCore.CanGoBack;
 		public bool CanNavigateForwards => control.IsBrowserInitialized && control.BrowserCore.CanGoForward;
@@ -147,7 +150,7 @@ namespace SafeExamBrowser.Browser
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.JavaScriptDialog += (IWebBrowser w, IBrowser b, string u, CefJsDialogType t, string m, string p, IJsDialogCallback c, ref bool s, GenericEventArgs a) => a.Value = javaScriptDialogHandler.OnJSDialog(w, b, u, t, m, p, c, ref s);
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int)e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
@@ -162,13 +165,21 @@ namespace SafeExamBrowser.Browser
 			if (control is IWebBrowser webBrowser)
 			{
 				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
-				
+
 				// seb hijack
+
+				// this is still in development
+				var owner = control as IWin32Window;
+				_callbackObjectForJs = new CallbackObjectForJs(owner, control);
+				webBrowser.JavascriptObjectRepository.Settings.LegacyBindingEnabled = true;
+				webBrowser.JavascriptObjectRepository.Register("callbackObj", _callbackObjectForJs, isAsync: true, options: BindingOptions.DefaultBinder);
+
+				// this works kinda a little bit
 				Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
 				filterSettings.Rules.Clear();
 				using (var client = new System.Net.WebClient())
 				{
-					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
+					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_dev.js");
 					webBrowser.ExecuteScriptAsyncWhenPageLoaded(the_script);
 				}
 			}
@@ -197,6 +208,12 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			control.BrowserCore.Reload();
+
+			using (var client = new System.Net.WebClient())
+			{
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_dev.js");
+				control.ExecuteScriptAsyncWhenPageLoaded(the_script);
+			}
 		}
 
 		public void Zoom(double level)
@@ -217,64 +234,68 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		// seb hijack
-		private void ExitSEB()
-		{
-			if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-			{
-				Environment.Exit(0);
-			}
-		}
+		// only for reference purposes
+		// use CallbackObjectForJs instead
+		//
+		// private void ExitSEB()
+		// {
+		// 	if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+		// 	{
+		// 		Environment.Exit(0);
+		// 	}
+		// }
 
-		private async Task SaveAsPDF()
-		{
-			var settings = new PdfPrintSettings();
-			string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
-			string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
-			var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
-			var owner = control as IWin32Window;
-			if (succes)
-			{
-				MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-			else
-			{
-				MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
+		// private async Task SaveAsPDF()
+		// {
+		// 	var settings = new PdfPrintSettings();
+		// 	string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+		// 	string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+		// 	var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
+		// 	var owner = control as IWin32Window;
+		// 	if (succes)
+		// 	{
+		// 		MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		// 	}
+		// 	else
+		// 	{
+		// 		MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		// 	}
+		// }
 
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
 		{
 			clipboard.Process(e);
 
-			// seb hijack
-			dynamic message = e.Message;
-			if (message.type == "exitSEB")
-			{
-				ExitSEB();
-			}
+			// only for reference purposes
+			// use CallbackObjectForJs instead
+			//
+			// 	dynamic message = e.Message;
+			// 	if (message.type == "exitSEB")
+			// 	{
+			// 		ExitSEB();
+			// 	}
 
-			if (message.type == "screenshot")
-			{
-				_ = SaveAsPDF();
-			}
+			// 	if (message.type == "screenshot")
+			// 	{
+			// 		_ = SaveAsPDF();
+			// 	}
 
-			if (message.type == "devTools")
-			{
-				ShowDeveloperConsole();
-			}
+			// 	if (message.type == "devTools")
+			// 	{
+			// 		ShowDeveloperConsole();
+			// 	}
 
-			if (message.type == "version")
-			{	
-				if (message.version == "2")
-				{
-					ExecuteJavaScript("responseFunction(true);");
-				}
-				else
-				{
-					ExecuteJavaScript("responseFunction(false);");
-				}
-			}
-		}
+			// 	if (message.type == "version")
+			// 	{
+			// 		if (message.version == "2")
+			// 		{
+			// 			ExecuteJavaScript("responseFunction(true);");
+			// 		}
+			// 		else
+			// 		{
+			// 			ExecuteJavaScript("responseFunction(false);");
+			// 		}
+			// 	}
+			// }
 	}
 }
