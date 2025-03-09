@@ -7,8 +7,10 @@
  */
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using CefSharp;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
