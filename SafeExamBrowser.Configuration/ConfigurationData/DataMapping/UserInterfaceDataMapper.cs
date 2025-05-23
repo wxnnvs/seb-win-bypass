@@ -55,10 +55,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableActionCenter(AppSettings settings, object value)
 		{
-			if (value is bool enable)
-			{
-				settings.UserInterface.ActionCenter.EnableActionCenter = enable;
-			}
+			// if (value is bool enable)
+			// {
+			// 	settings.UserInterface.ActionCenter.EnableActionCenter = enable;
+			// }
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
 		}
 
 		private void MapLockScreenBackgroundColor(AppSettings settings, object value)

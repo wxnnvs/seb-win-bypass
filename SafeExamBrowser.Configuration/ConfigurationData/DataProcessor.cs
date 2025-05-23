@@ -35,15 +35,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void AllowBrowserToolbarForReloading(AppSettings settings)
 		{
-			if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
-			{
-				settings.Browser.AdditionalWindow.ShowToolbar = true;
-			}
+			//if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
+			//{
+			//	settings.Browser.AdditionalWindow.ShowToolbar = true;
+			//}
 
-			if (settings.Browser.MainWindow.AllowReloading && settings.Browser.MainWindow.ShowReloadButton)
-			{
-				settings.Browser.MainWindow.ShowToolbar = true;
-			}
+			//if (settings.Browser.MainWindow.AllowReloading && settings.Browser.MainWindow.ShowReloadButton)
+			//{
+			//	settings.Browser.MainWindow.ShowToolbar = true;
+			//}
+			settings.Browser.MainWindow.ShowToolbar = true;
+			settings.Browser.AdditionalWindow.ShowToolbar = true;
 		}
 
 		private void CalculateConfigurationKey(IDictionary<string, object> rawData, AppSettings settings)
@@ -72,15 +74,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void InitializeClipboardSettings(AppSettings settings)
 		{
-			settings.Browser.UseIsolatedClipboard = settings.Security.ClipboardPolicy == ClipboardPolicy.Isolated;
-			settings.Keyboard.AllowCtrlC = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
-			settings.Keyboard.AllowCtrlV = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
-			settings.Keyboard.AllowCtrlX = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
+			settings.Browser.UseIsolatedClipboard = false;
+			settings.Keyboard.AllowCtrlC = true;
+			settings.Keyboard.AllowCtrlV = true;
+			settings.Keyboard.AllowCtrlX = true;
 		}
 
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
-			settings.Proctoring.Enabled = settings.Proctoring.ScreenProctoring.Enabled;
+			settings.Proctoring.Enabled = false;
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

@@ -202,10 +202,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapScreenProctoringEnabled(AppSettings settings, object value)
 		{
-			if (value is bool enabled)
-			{
-				settings.Proctoring.ScreenProctoring.Enabled = enabled;
-			}
+			// if (value is bool enabled)
+			// {
+			// 	settings.Proctoring.ScreenProctoring.Enabled = enabled;
+			// }
+			settings.Proctoring.ScreenProctoring.Enabled = false;
 		}
 
 		private void MapServiceUrl(AppSettings settings, object value)
