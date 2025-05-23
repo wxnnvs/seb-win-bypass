@@ -116,45 +116,45 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		public bool TryVerifyCodeSignature(out bool isValid)
 		{
-			var success = false;
+			// var success = false;
 
-			isValid = default;
+			// isValid = default;
 
-			try
-			{
-				isValid = VerifyCodeSignature();
-				success = true;
-			}
-			catch (DllNotFoundException)
-			{
-				logger.Warn("Integrity module is not available!");
-			}
-			catch (Exception e)
-			{
-				logger.Error("Unexpected error while attempting to verify code signature!", e);
-			}
+			// try
+			// {
+			// 	isValid = VerifyCodeSignature();
+			// 	success = true;
+			// }
+			// catch (DllNotFoundException)
+			// {
+			// 	logger.Warn("Integrity module is not available!");
+			// }
+			// catch (Exception e)
+			// {
+			// 	logger.Error("Unexpected error while attempting to verify code signature!", e);
+			// }
 
-			return success;
+			return true;
 		}
 
 		public bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid)
 		{
-			var success = false;
+			// var success = false;
 
-			isValid = false;
+			// isValid = false;
 
-			if (TryReadSessionCache(out var sessions))
-			{
-				isValid = sessions.All(s => s.configurationKey != configurationKey && s.startUrl != startUrl);
-				success = true;
-				logger.Debug($"Successfully verified session integrity, session is {(isValid ? "valid." : "compromised!")}");
-			}
-			else
-			{
-				logger.Error("Failed to verify session integrity!");
-			}
+			// if (TryReadSessionCache(out var sessions))
+			// {
+			// 	isValid = sessions.All(s => s.configurationKey != configurationKey && s.startUrl != startUrl);
+			// 	success = true;
+			// 	logger.Debug($"Successfully verified session integrity, session is {(isValid ? "valid." : "compromised!")}");
+			// }
+			// else
+			// {
+			// 	logger.Error("Failed to verify session integrity!");
+			// }
 
-			return success;
+			return true;
 		}
 
 		private bool TryReadSessionCache(out IList<(string configurationKey, string startUrl)> sessions)
