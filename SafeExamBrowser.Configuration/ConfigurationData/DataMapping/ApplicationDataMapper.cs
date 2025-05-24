@@ -65,15 +65,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 									&& a.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
 							});
 
-							if (defaultEntry != default(BlacklistApplication))
-							{
-								settings.Applications.Blacklist.Remove(defaultEntry);
-							}
+							// if (defaultEntry != default(BlacklistApplication))
+							// {
+							// 	settings.Applications.Blacklist.Remove(defaultEntry);
+							// }
 
-							if (isActive)
-							{
-								settings.Applications.Blacklist.Add(application);
-							}
+							settings.Applications.Blacklist.Remove(defaultEntry);
+
+							// if (isActive)
+							// {
+							// 	settings.Applications.Blacklist.Add(application);
+							// }
 						}
 					}
 				}

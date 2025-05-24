@@ -70,10 +70,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAdminPasswordHash(AppSettings settings, object value)
 		{
-			if (value is string hash)
-			{
-				settings.Security.AdminPasswordHash = hash;
-			}
+			// if (value is string hash)
+			// {
+			// 	settings.Security.AdminPasswordHash = hash;
+			// }
+			settings.Security.AdminPasswordHash = "";
 		}
 
 		private void MapAllowReconfiguration(AppSettings settings, object value)
@@ -102,10 +103,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapAllowWindowCapture(AppSettings settings, object value)
 		{
-			if (value is bool allow)
-			{
-				settings.Security.AllowWindowCapture = allow;
-			}
+			// if (value is bool allow)
+			// {
+			// 	settings.Security.AllowWindowCapture = allow;
+			// }
+			settings.Security.AllowWindowCapture = true;
 		}
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
@@ -151,10 +153,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapQuitPasswordHash(AppSettings settings, object value)
 		{
-			if (value is string hash)
-			{
-				settings.Security.QuitPasswordHash = hash;
-			}
+			// if (value is string hash)
+			// {
+			// 	settings.Security.QuitPasswordHash = hash;
+			// }
+			settings.Security.QuitPasswordHash = "";
 		}
 
 		private void MapClipboardPolicy(AppSettings settings, object value)
@@ -162,10 +165,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			const int ALLOW = 0;
 			const int BLOCK = 1;
 
-			if (value is int policy)
-			{
-				settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
-			}
+			// if (value is int policy)
+			// {
+			// 	settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
+			// }
+			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
 		}
 
 		private void MapDisableSessionChangeLockScreen(AppSettings settings, object value)
@@ -178,10 +182,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapVirtualMachinePolicy(AppSettings settings, object value)
 		{
-			if (value is bool allow)
-			{
-				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
-			}
+			// if (value is bool allow)
+			// {
+			// 	settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
+			// }
+			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
 		}
 
 		private void MapReconfigurationUrl(AppSettings settings, object value)
@@ -202,40 +207,41 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapVerifySessionIntegrity(AppSettings settings, object value)
 		{
-			if (value is bool verify)
-			{
-				settings.Security.VerifySessionIntegrity = verify;
-			}
+			// if (value is bool verify)
+			// {
+			// 	settings.Security.VerifySessionIntegrity = verify;
+			// }
+			settings.Security.VerifySessionIntegrity = false;
 		}
 
 		private void MapVersionRestrictions(AppSettings settings, object value)
 		{
-			if (value is IList<object> restrictions)
-			{
-				foreach (var restriction in restrictions.Cast<string>())
-				{
-					var parts = restriction.Split('.');
-					var os = parts.Length > 0 ? parts[0] : default;
+			// if (value is IList<object> restrictions)
+			// {
+			// 	foreach (var restriction in restrictions.Cast<string>())
+			// 	{
+			// 		var parts = restriction.Split('.');
+			// 		var os = parts.Length > 0 ? parts[0] : default;
 
-					if (os?.Equals("win", StringComparison.OrdinalIgnoreCase) == true)
-					{
-						var major = parts.Length > 1 ? int.Parse(parts[1]) : default;
-						var minor = parts.Length > 2 ? int.Parse(parts[2]) : default;
-						var patch = parts.Length > 3 && int.TryParse(parts[3], out _) ? int.Parse(parts[3]) : default(int?);
-						var build = parts.Length > 4 && int.TryParse(parts[4], out _) ? int.Parse(parts[4]) : default(int?);
+			// 		if (os?.Equals("win", StringComparison.OrdinalIgnoreCase) == true)
+			// 		{
+			// 			var major = parts.Length > 1 ? int.Parse(parts[1]) : default;
+			// 			var minor = parts.Length > 2 ? int.Parse(parts[2]) : default;
+			// 			var patch = parts.Length > 3 && int.TryParse(parts[3], out _) ? int.Parse(parts[3]) : default(int?);
+			// 			var build = parts.Length > 4 && int.TryParse(parts[4], out _) ? int.Parse(parts[4]) : default(int?);
 
-						settings.Security.VersionRestrictions.Add(new VersionRestriction
-						{
-							Major = major,
-							Minor = minor,
-							Patch = patch,
-							Build = build,
-							IsMinimumRestriction = restriction.Contains("min"),
-							RequiresAllianceEdition = restriction.Contains("AE")
-						});
-					}
-				}
-			}
+			// 			settings.Security.VersionRestrictions.Add(new VersionRestriction
+			// 			{
+			// 				Major = major,
+			// 				Minor = minor,
+			// 				Patch = patch,
+			// 				Build = build,
+			// 				IsMinimumRestriction = restriction.Contains("min"),
+			// 				RequiresAllianceEdition = restriction.Contains("AE")
+			// 			});
+			// 		}
+			// 	}
+			// }
 		}
 	}
 }

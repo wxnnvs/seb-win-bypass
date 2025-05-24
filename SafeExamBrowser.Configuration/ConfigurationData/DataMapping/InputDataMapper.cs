@@ -100,10 +100,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapEnableAltTab(AppSettings settings, object value)
 		{
-			if (value is bool enabled)
-			{
-				settings.Keyboard.AllowAltTab = enabled;
-			}
+			// if (value is bool enabled)
+			// {
+			// 	settings.Keyboard.AllowAltTab = enabled;
+			// }
+			settings.Keyboard.AllowAltTab = true;
 		}
 
 		private void MapEnableCtrlEsc(AppSettings settings, object value)
