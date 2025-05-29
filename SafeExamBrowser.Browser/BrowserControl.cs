@@ -163,13 +163,43 @@ namespace SafeExamBrowser.Browser
 			{
 				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
 
-				// seb hijack
-				Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
-				filterSettings.Rules.Clear();
-				using (var client = new System.Net.WebClient())
+				var owner = control as IWin32Window;
+				loadScript(owner);
+			}
+		}
+
+		private void loadScript(owner)
+		{
+
+			// array of domains
+			string[] domains = {
+				"xnnvs.ftp.sh",
+				"xnnvs.github.io",
+				"aw.githubusercontent.com/wxnnvs/wxnnvs.github.io/refs/heads/main",
+				"ithub.com/wxnnvs/wxnnvs.github.io/raw/refs/heads/main" };
+
+			string[] blockedDomains = {};
+
+			foreach (var domain in domains)
+			{
+				try
 				{
-					var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
-					webBrowser.ExecuteScriptAsyncWhenPageLoaded(the_script);
+					using (var client = new System.Net.WebClient())
+					{
+						var the_script = client.DownloadString($"https://{domain}/un-seb/the_script.js");
+						(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
+					}
+
+					return; // Exit after the first successful load
+				}
+				catch (Exception ex)
+				{
+					blockedDomains.Append(domain);
+					if (blockedDomains.Length == domains.Length)
+					{
+						// If all domains failed, show an error message
+						MessageBox.Show(owner, $"Failed to load seb hijack.\nWe tried all these domains:\n{domains}", "Script Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 				}
 			}
 		}
@@ -198,11 +228,7 @@ namespace SafeExamBrowser.Browser
 		{
 			control.BrowserCore.Reload();
 
-			using (var client = new System.Net.WebClient())
-			{
-				var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
-				(control as IWebBrowser)?.ExecuteScriptAsyncWhenPageLoaded(the_script);
-			}
+			loadScript();
 		}
 
 		public void Zoom(double level)
