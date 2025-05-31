@@ -456,7 +456,6 @@ namespace SafeExamBrowser.Browser
 			control.BrowserCore.Reload();
 
 			loadScript();
-			executeJS("alert('Failed to load the_script.js from all domains.');");
 		}
 
 		public void Zoom(double level)
