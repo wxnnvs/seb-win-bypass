@@ -1,8 +1,4 @@
-# UnSafe Exam Browser, Version 3.x
-
-Please use the 3.9.0 branch as reference
-
-Bypass SEB limitations
+It was a good run y'all, im leaving this project now. Do with it what u desire.
 
 Project status:
 [![Total Downloads](https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/total.svg)]()
